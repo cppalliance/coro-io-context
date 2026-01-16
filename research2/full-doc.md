@@ -22,6 +22,34 @@ Before beginning, you MUST have:
 
 ---
 
+## Style Principles
+
+### Terminology Consistency
+
+Once you name something, never rename it mid-document—readers assume synonyms signal a subtle distinction.
+
+### Grammar Convention
+
+"That" for essential clauses (no comma); "which" for nonessential (comma before)—US English.
+
+### Link Text
+
+Link text must be meaningful out of context: "Read the style guide" not "Click here."
+
+### Content Priorities
+
+Document gotchas, caveats, and edge cases—these matter more than happy-path documentation:
+
+- Thread safety constraints
+- Ownership and lifetime issues
+- Platform-specific behavior
+- Performance cliffs
+- Non-obvious prerequisites
+
+Show when to use AND when NOT to use each feature.
+
+---
+
 ## Step 1: Discover Public Interfaces
 
 Analyze the directory and file structure to understand the scope of what needs to be documented. This inventory is for planning purposes only—it does not appear in the final documentation.
@@ -158,12 +186,25 @@ Each section should follow this arc:
    - Summarize what was covered
    - Create a natural bridge to the next section
 
+### Content Order
+
+Answer: **What? Why? How?**—in that order.
+
 ### Code Example Requirements
 
 - Every concept must have accompanying code
 - Examples should be compilable (not snippets with `...`)
 - Show realistic use, not contrived demos
 - Include brief explanation of what the code accomplishes
+
+### Error Documentation
+
+For any operation that can fail, document:
+
+- What errors can occur?
+- How are they reported (exceptions, error codes, callbacks)?
+- What should users do when errors occur?
+- Provide example error handling code
 
 ### Light Fill Scope
 
@@ -270,7 +311,7 @@ Perform a complete review of the generated documentation from first page to last
 
 **A documentation rule file MUST be provided by the user.** If you have not received a documentation rule:
 
-> ⚠️ **STOP.** Ask the user for the documentation rule file before proceeding. Do not perform any documentation operations without this input.
+> **STOP.** Ask the user for the documentation rule file before proceeding. Do not perform any documentation operations without this input.
 
 ### Review Process
 
@@ -285,6 +326,10 @@ Perform a complete review of the generated documentation from first page to last
    - Required sections present
    - Code example standards met
 
+### The 30-Minute Test
+
+Can an unfamiliar user understand what the library does (5 min), install it (5 min), and complete a basic task (20 min)?
+
 ### Final Checklist
 
 - [ ] Introduction accurately represents the library
@@ -295,3 +340,24 @@ Perform a complete review of the generated documentation from first page to last
 - [ ] Supplementary pages are linked where relevant
 - [ ] Terminology is consistent across all pages
 - [ ] Navigation structure is logical and complete
+
+---
+
+## C++ Conventions
+
+### Namespace Usage
+
+Avoid repeating large namespace qualifiers; use unqualified names throughout.
+
+Begin documentation with an admonition establishing assumed context:
+
+> Code snippets throughout the documentation are written as if the following declarations are in effect:
+> ```cpp
+> #include <boost/buffers.hpp>
+> using namespace boost::buffers;
+> ```
+
+### Javadoc Conventions
+
+- Do not show `@tparam` for variadic template args (`Args...`); only show `@param`
+- Briefs for functions returning a value should start with "Return" (with few exceptions)
