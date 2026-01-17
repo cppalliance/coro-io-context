@@ -9,3 +9,4 @@ alwaysApply: true
 - Private data members first
 - Public interface last
 - Javadoc on almost all public functions
+- struct if all public, else class
