@@ -16,9 +16,10 @@ We present a coroutine-first I/O framework that achieves executor flexibility wi
 
 A central design choice: we consciously trade one pointer indirection per I/O operation for complete type hiding. This tradeoff—approximately 1-2 nanoseconds of overhead—eliminates the template complexity, compile time bloat, and ABI instability that have long plagued C++ async libraries. In contrast, `std::execution`'s `connect(sender, receiver)` returns a fully-typed `operation_state`, forcing implementation types through every API boundary.
 
-We compare our networking-first design against `std::execution` (P2300) and observe significant divergence. Analysis of P2300 and its evolution (P3826) reveals a framework driven by GPU and parallel workloads—P3826's focus is overwhelmingly GPU/parallel with no networking discussion. Core networking concerns—strand serialization, I/O completion contexts, platform integration—remain unaddressed. The query-based context model that P3826 attempts to fix is unnecessary when context propagates forward through coroutine machinery.
+An explicit tradeoff: we consciously trade one pointer indirection per I/O operation (~1-2 nanoseconds) for complete type hiding. Executor types do not leak into public interfaces; platform I/O types remain hidden in translation units; composed algorithms expose only `task` return types. This type hiding directly enables ABI stability—library implementations can evolve without breaking user binaries. It also eliminates the template complexity and compile time bloat that have long plagued C++ async libraries. In contrast, `std::execution`'s `connect(sender, receiver)` returns a fully-typed `operation_state`, forcing implementation types through every API boundary.
 
-Our framework demonstrates what emerges when networking requirements drive the design rather than being adapted to a GPU-focused abstraction.
+Central to our design is a clear responsibility model: call sites which launch the coroutine chain control all parameters of the execution context. The context automatically propagates forward, addressing timing constraints that backward query models cannot satisfy. The result is a simpler abstraction with direct mapping to what I/O completion paths actually do.
+
 
 ---
 
