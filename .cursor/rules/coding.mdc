@@ -16,3 +16,4 @@ alwaysApply: true
 - idiomatic system::error_code check is ec.failed() not ec or !!ec
 - always update the tests after changing code
 - protect min max with paren (std::min)(...)
+- include <algorithm> sparingly (not for min max), its costly
