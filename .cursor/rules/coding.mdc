@@ -13,6 +13,6 @@ alwaysApply: true
 - struct if all public, else class
 - never break encapsulation without explicit instruction
 - don't call make_error_code directly unless necessary
-- idiomatic boost::system::error_code check is ec.failed() not ec or !!ec
+- idiomatic system::error_code check is ec.failed() not ec or !!ec
 - always update the tests after changing code
 - protect min max with paren (std::min)(...)
