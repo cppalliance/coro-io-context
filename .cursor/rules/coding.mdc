@@ -8,6 +8,7 @@ alwaysApply: true
 
 - Private data members first
 - Public interface last
+- Destructor first
 - little to no ascii-art dividers
 - Javadoc on almost all public functions
 - struct if all public, else class
